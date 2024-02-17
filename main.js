@@ -1,7 +1,7 @@
+// ページが読み込まれたときに実行されるコード
 document.addEventListener('DOMContentLoaded', (event) => {
     const LOCAL_STORAGE_KEY = 'todoApp.todos';
     let todos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
-    let regularTasks = JSON.parse(localStorage.getItem('todoApp.regularTasks')) || [];
 
     // ローマ数字に変換する関数
     function romanize(num) {
@@ -42,17 +42,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
             todoList.appendChild(li);
         });
-    }
 
-    // 定期的なタスクをレンダリングする関数
-    function renderRegularTasks() {
-        const regularTaskList = document.querySelector('.regular-tasks');
-        regularTaskList.innerHTML = '';
-        regularTasks.forEach((task, index) => {
-            const li = document.createElement('li');
-            li.className = 'regular-task-item';
-            li.appendChild(document.createTextNode(romanize(index + 1) + '. ' + task.text));
-            regularTaskList.appendChild(li);
+        // Sortable.jsを使用してToDoリストの要素間のソートを可能にする
+        new Sortable(todoList, {
+            animation: 150,
+            onEnd: function (evt) {
+                const item = todos.splice(evt.oldIndex, 1)[0];
+                todos.splice(evt.newIndex, 0, item);
+                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos));
+                renderTodos();
+            }
         });
     }
 
@@ -61,13 +60,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         todos.push({ id: Date.now(), text, completed: false });
         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos));
         renderTodos();
-    }
-
-    // 新しい定期的なタスクを追加する関数
-    function addRegularTask(text) {
-        regularTasks.push({ id: Date.now(), text });
-        localStorage.setItem('todoApp.regularTasks', JSON.stringify(regularTasks));
-        renderRegularTasks();
     }
 
     // ToDoの完了状態を切り替える関数
@@ -84,21 +76,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
         renderTodos();
     }
 
-    // フォームの送信イベントをリッスンする
-    document.querySelector('form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const input = document.querySelector('input[type="text"]');
-        if (input.value === '') return;
-        addTodo(input.value);
-        input.value = ''; // 送信後にinputタグの値をクリア
-    });
+// フォームの送信イベントをリッスンする
+document.querySelector('form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const input = document.querySelector('input[type="text"]');
+    if (input.value === '') return;
+    addTodo(input.value);
+    input.value = ''; // 送信後にinputタグの値をクリア
+});
 
-    // 1時間ごとに定期的なタスクをチェックする
-    setInterval(() => {
-        alert('定期的なタスクをチェックしてください！');
-    }, 60 * 60 * 1000);
-
-    // 初期のToDoリストと定期的なタスクをレンダリングする
+    // 初期のToDoリストをレンダリングする
     renderTodos();
-    renderRegularTasks();
+
 });
