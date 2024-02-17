@@ -1,9 +1,11 @@
 // ページが読み込まれたときに実行されるコード
 document.addEventListener('DOMContentLoaded', (event) => {
+    // ローカルストレージのキー
     const LOCAL_STORAGE_KEY = 'todoApp.todos';
+    // ローカルストレージからToDoリストを取得する（存在しない場合は空の配列を設定）
     let todos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
 
-    // ローマ数字に変換する関数
+    // 数字をローマ数字に変換する関数（小文字で出力）
     function romanize(num) {
         const lookup = {m:1000,cm:900,d:500,cd:400,c:100,xc:90,l:50,xl:40,x:10,ix:9,v:5,iv:4,i:1};
         let roman = '';
@@ -13,7 +15,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 num -= lookup[i];
             }
         }
-        return roman;
+        return roman.toLowerCase();
     }
 
     // ToDoリストをレンダリングする関数
@@ -23,6 +25,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
         todos.forEach((todo, index) => {
             const li = document.createElement('li');
             li.className = 'todo-item';
+
+            // チェックボックスを作成
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
             checkbox.checked = todo.completed;
@@ -33,35 +37,30 @@ document.addEventListener('DOMContentLoaded', (event) => {
             const romanNum = document.createElement('span');
             romanNum.className = 'roman';
             romanNum.textContent = romanize(index + 1) + '.';
-            romanNum.style.display = 'inline-block'; // ブロックレベル要素として扱う
-            romanNum.style.width = '40px'; // 適切な幅を設定（必要に応じて調整）
-            romanNum.style.textAlign = 'right'; // 右揃えにする
+            romanNum.style.display = 'inline-block';
+            romanNum.style.width = '40px';
+            romanNum.style.textAlign = 'right';
             li.appendChild(romanNum);
 
             // ToDoテキストを追加
             const todoText = document.createElement('span');
             todoText.className = 'todo-text';
             todoText.textContent = todo.text;
-            todoText.contentEditable = 'true'; // ToDoテキストを編集可能にする
-            todoText.style.overflowWrap = 'break-word'; // 一定の文字数を超えたら改行する
-            
-            // ビューポートの幅に応じて幅を設定
+            todoText.contentEditable = 'true';
+            todoText.style.overflowWrap = 'break-word';
             if (window.matchMedia('(max-width: 600px)').matches) {
-                // ビューポートの幅が600px以下の場合（スマホ）
                 todoText.style.width = '16ch';
             } else {
-                // ビューポートの幅が600pxより大きい場合（パソコン）
                 todoText.style.width = '24ch';
             }
-            
-            todoText.style.overflow = 'auto'; // 内容が領域を超えたらスクロールバーを表示
+            todoText.style.overflow = 'auto';
             li.appendChild(todoText);
 
             // 削除ボタンを作成
             const deleteButton = document.createElement('button');
             deleteButton.textContent = 'Del.';
             deleteButton.className = 'delete-button';
-            deleteButton.style.float = 'right'; // 削除ボタンを右端に寄せる
+            deleteButton.style.float = 'right';
             deleteButton.addEventListener('click', () => deleteTodo(todo.id));
             li.appendChild(deleteButton);
 
@@ -75,8 +74,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 const item = todos.splice(evt.oldIndex, 1)[0];
                 todos.splice(evt.newIndex, 0, item);
                 localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos));
+                renderTodos();  // ドラッグアンドドロップ後に再レンダリング
             },
-            // スマホ対応のための設定
             forceFallback: true,
             fallbackClass: 'sortable-fallback',
             fallbackOnBody: true
@@ -115,5 +114,4 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     // 初期のToDoリストをレンダリングする
     renderTodos();
-
 });
