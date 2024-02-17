@@ -29,8 +29,24 @@ document.addEventListener('DOMContentLoaded', (event) => {
             checkbox.addEventListener('change', () => toggleComplete(todo.id));
             li.appendChild(checkbox);
 
-            // ToDoテキストの前に番号を追加
-            li.appendChild(document.createTextNode(romanize(index + 1) + '. ' + todo.text));
+            // ローマ数字を追加
+            const romanNum = document.createElement('span');
+            romanNum.className = 'roman';
+            romanNum.textContent = romanize(index + 1) + '.';
+            romanNum.style.display = 'inline-block'; // ブロックレベル要素として扱う
+            romanNum.style.width = '40px'; // 適切な幅を設定（必要に応じて調整）
+            romanNum.style.textAlign = 'right'; // 右揃えにする
+            li.appendChild(romanNum);
+
+            // ToDoテキストを追加
+            const todoText = document.createElement('span');
+            todoText.className = 'todo-text';
+            todoText.textContent = todo.text;
+            todoText.contentEditable = 'true'; // ToDoテキストを編集可能にする
+            todoText.style.overflowWrap = 'break-word'; // 一定の文字数を超えたら改行する
+            todoText.style.width = '14ch'; // 幅を14文字分に制限
+            todoText.style.overflow = 'auto'; // 内容が領域を超えたらスクロールバーを表示
+            li.appendChild(todoText);
 
             // 削除ボタンを作成
             const deleteButton = document.createElement('button');
@@ -50,8 +66,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 const item = todos.splice(evt.oldIndex, 1)[0];
                 todos.splice(evt.newIndex, 0, item);
                 localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos));
-                renderTodos();
-            }
+            },
+            // スマホ対応のための設定
+            forceFallback: true,
+            fallbackClass: 'sortable-fallback',
+            fallbackOnBody: true
         });
     }
 
@@ -76,14 +95,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
         renderTodos();
     }
 
-// フォームの送信イベントをリッスンする
-document.querySelector('form').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const input = document.querySelector('input[type="text"]');
-    if (input.value === '') return;
-    addTodo(input.value);
-    input.value = ''; // 送信後にinputタグの値をクリア
-});
+    // フォームの送信イベントをリッスンする
+    document.querySelector('form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const input = document.querySelector('input[type="text"]');
+        if (input.value === '') return;
+        addTodo(input.value);
+        input.value = ''; // 送信後にinputタグの値をクリア
+    });
 
     // 初期のToDoリストをレンダリングする
     renderTodos();
