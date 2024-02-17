@@ -44,7 +44,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
             todoText.textContent = todo.text;
             todoText.contentEditable = 'true'; // ToDoテキストを編集可能にする
             todoText.style.overflowWrap = 'break-word'; // 一定の文字数を超えたら改行する
-            todoText.style.width = '24ch'; // 幅を14文字分に制限
+            
+            // ビューポートの幅に応じて幅を設定
+            if (window.matchMedia('(max-width: 600px)').matches) {
+                // ビューポートの幅が600px以下の場合（スマホ）
+                todoText.style.width = '20ch';
+            } else {
+                // ビューポートの幅が600pxより大きい場合（パソコン）
+                todoText.style.width = '24ch';
+            }
+            
             todoText.style.overflow = 'auto'; // 内容が領域を超えたらスクロールバーを表示
             li.appendChild(todoText);
 
