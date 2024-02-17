@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             romanNum.textContent = romanize(index + 1) + '.';
             romanNum.style.display = 'inline-block';
             romanNum.style.width = '40px';
-            romanNum.style.textAlign = 'right';
+            romanNum.style.textAlign = 'center';  // ここを変更
             li.appendChild(romanNum);
 
             const todoText = document.createElement('span');
