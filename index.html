@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Kufam:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&display=swap" rel="stylesheet"> <!-- ローマ数字用のフォント -->
     <style src="reset.css"></style>
     <title>To Do List</title>
     <style>
-        body {
+
+body {
             font-family: 'Kufam', 'Noto Sans JP', sans-serif;
             background-color: #b9b9b9;
             color: #fff;
@@ -112,6 +114,21 @@
             color: #8B0000;
             transform: rotate(360deg);
         }
+
+        /* ローマ数字のスタイル */
+        .roman {
+            font-family: 'Cinzel', serif; /* ローマ数字用のフォント */
+            margin-right: 10px; /* ローマ数字とToDoテキストの間隔 */
+        }
+
+        /* ToDoテキストのスタイル */
+        .todo-text {
+            flex-grow: 1.5; /* ToDoテキストと削除ボタンとの間にスペースを作る */
+        }
+        .todo-item {
+            display: flex;
+            align-items: center;
+}
     </style>
 </head>
 <body>
@@ -130,6 +147,7 @@
 
     <script src="main.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.10.2/Sortable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script> <!-- スマホ対応のためのライブラリ -->
 
 </body>
 </html>
