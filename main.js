@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             // ビューポートの幅に応じて幅を設定
             if (window.matchMedia('(max-width: 600px)').matches) {
                 // ビューポートの幅が600px以下の場合（スマホ）
-                todoText.style.width = '20ch';
+                todoText.style.width = '16ch';
             } else {
                 // ビューポートの幅が600pxより大きい場合（パソコン）
                 todoText.style.width = '24ch';
