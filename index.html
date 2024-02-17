@@ -3,26 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="kufam.css" rel="stylesheet">
-    <link href="noto.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kufam:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style src="reset.css"></style>
     <title>To Do List</title>
     <style>
-        /* CSS styles */
+        body {
+            font-family: 'Kufam', 'Noto Sans JP', sans-serif;
+            background-color: #b9b9b9;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* タイトルのスタイル */
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            color: #fff;
+            margin-bottom: 20px; /* 追加：タイトルとフォームの間隔を調整 */
+        }
+
+        /* フォームのスタイル */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px; /* 要素間のスペース */
+            align-items: center; /* 中央揃え */
+            margin-bottom: 50px; /* 追加ボタンとToDoリストとの距離 */
+            width: 100%; /* 追加：フォームの幅を最大に */
+            max-width: 500px; /* 追加：最大幅を設定（必要に応じて調整） */
+            padding: 0 20px; /* 追加：左右のパディングを設定 */
+            box-sizing: border-box; /* 追加：パディングを幅に含める */
+        }
+        /* inputタグのスタイル */
+        input[type="text"] {
+            width: 100%; /* 幅を最大に */
+            padding: 10px; /* パディングを追加 */
+            font-size: 1.2em; /* フォントサイズを大きく */
+            border-radius: 5px; /* ボーダーラジウスを追加 */
+        }
+
+        /* 追加ボタンのスタイル */
+        .btn-top {
+            background: #b9b9b9;
+            position: relative;
+            top: 17px;
+            left: 0; /* 変更：左側の位置を0に設定 */
+            right: 0; /* 変更：右側の位置を0に設定 */
+            margin: auto;
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            transition-duration: 1s;
+            width: min-content; /* 変更：ボタンの幅を内容に基づいて自動調整 */
+            padding: 10px 20px; /* 変更：左右のパディングを20pxに設定 */
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            border-radius: 5px; /* 追加：ボーダーラジウスを追加 */
+        }
+
+        /* 追加ボタンのホバー時のスタイル */
+        .btn-top:hover {
+            color: #8B0000;
+            background: #fff;
+            transform: rotate(360deg);
+        }
+
+        /* ToDoリストのスタイル */
+        .todo-list {
+            list-style-type: none;
+            padding: 0;
+            background-color: #fff;
+            color: #000;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            font-size: 1.5em;
+        }
+
+        /* 各ToDoアイテムのスタイル */
+        .todo-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #8B0000;
+        }
+
+        /* 削除ボタンのスタイル */
+        .delete-button {
+            background-color: #8B0000;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        /* 削除ボタンのホバー時のスタイル */
+        .delete-button:hover {
+            background-color: #fff;
+            color: #8B0000;
+            transform: rotate(360deg);
+        }
     </style>
 </head>
 <body>
+    <!-- ToDoリストのコンテナ -->
     <div id="root">
+        <!-- タイトル -->
         <h1>To Do List</h1>
+        <!-- ToDoを追加するためのフォーム -->
         <form>
             <input type="text" />
             <button class="btn-top" type="submit">Submit</button>
         </form>
+        <!-- ToDoリスト -->
         <ul class="todo-list"></ul>
-        <h2>Regular Tasks</h2>
-        <ul class="regular-tasks"></ul>
     </div>
 
     <script src="main.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.10.2/Sortable.min.js"></script>
+
 </body>
 </html>
