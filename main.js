@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             todoText.textContent = todo.text;
             todoText.contentEditable = 'true'; // ToDoテキストを編集可能にする
             todoText.style.overflowWrap = 'break-word'; // 一定の文字数を超えたら改行する
-            todoText.style.width = '14ch'; // 幅を14文字分に制限
+            todoText.style.width = '24ch'; // 幅を14文字分に制限
             todoText.style.overflow = 'auto'; // 内容が領域を超えたらスクロールバーを表示
             li.appendChild(todoText);
 
