@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', (event) => {
     const LOCAL_STORAGE_KEY = 'todoApp.todos';
     let todos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
-    let sortable;  // Sortable.jsのインスタンスを格納する変数
+    let sortable;
 
     function romanize(num) {
         const lookup = {m:1000,cm:900,d:500,cd:400,c:100,xc:90,l:50,xl:40,x:10,ix:9,v:5,iv:4,i:1};
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             romanNum.textContent = romanize(index + 1) + '.';
             romanNum.style.display = 'inline-block';
             romanNum.style.width = '40px';
-            romanNum.style.textAlign = 'center';  // ここを変更
+            romanNum.style.textAlign = 'center';
             li.appendChild(romanNum);
 
             const todoText = document.createElement('span');
@@ -46,6 +46,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 todoText.style.width = '24ch';
             }
             todoText.style.overflow = 'auto';
+            todoText.addEventListener('blur', () => {
+                todo.text = todoText.textContent;
+                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos));
+            });
             li.appendChild(todoText);
 
             const deleteButton = document.createElement('button');
@@ -58,19 +62,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
             todoList.appendChild(li);
         });
 
-        // Sortable.jsのインスタンスが存在する場合は破棄
         if (sortable) {
             sortable.destroy();
         }
 
-        // Sortable.jsを再度初期化
         sortable = new Sortable(todoList, {
             animation: 150,
             onEnd: function (evt) {
                 const item = todos.splice(evt.oldIndex, 1)[0];
                 todos.splice(evt.newIndex, 0, item);
                 localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos));
-                renderTodos();
             },
             forceFallback: true,
             fallbackClass: 'sortable-fallback',
