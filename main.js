@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             if (window.matchMedia('(max-width: 600px)').matches) {
                 todoText.style.width = '16ch';
             } else {
-                todoText.style.width = '24ch';
+                todoText.style.width = '28ch';
             }
             todoText.style.overflow = 'auto';
             li.appendChild(todoText);
