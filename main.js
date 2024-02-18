@@ -66,17 +66,18 @@ document.addEventListener('DOMContentLoaded', (event) => {
             sortable.destroy();
         }
 
-        sortable = new Sortable(todoList, {
-            animation: 150,
-            onEnd: function (evt) {
-                const item = todos.splice(evt.oldIndex, 1)[0];
-                todos.splice(evt.newIndex, 0, item);
-                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos));
-            },
-            forceFallback: true,
-            fallbackClass: 'sortable-fallback',
-            fallbackOnBody: true
-        });
+            sortable = new Sortable(todoList, {
+                animation: 150,
+                onEnd: function (evt) {
+                    const item = todos.splice(evt.oldIndex, 1)[0];
+                    todos.splice(evt.newIndex, 0, item);
+                    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos));
+                    renderTodos();  // 順序が変更されたときにToDoリストを再描画
+                },
+                forceFallback: true,
+                fallbackClass: 'sortable-fallback',
+                fallbackOnBody: true
+            });
     }
 
     function addTodo(text) {
